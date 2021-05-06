@@ -4,22 +4,29 @@
     <div class="title">What do I do today?</div>
     <input v-model="myTodo"/>
     <button @click="addTodo">Add</button>
+    <div v-if="errors !==''" id='errors'>{{errors}}</div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import {db} from '@/main'
 
 export default {
   name: 'App',
   data: function(){
     return {
-      myTodo: ""
+      myTodo: "",
+      errors: ''
     }
   },
   methods: {
-    addToDo: function(){
-      console.log("myTodo: " +this.myTodo)
+    addTodo: function(){
+      this.errors='';
+      if(this.myTodo!==''){
+        console.log('j');
+      }else{
+        this.errors='Enter a todo';
+      }
     }
   }
 }
