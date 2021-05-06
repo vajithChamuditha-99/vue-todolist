@@ -3,14 +3,13 @@
     <img alt="Vue logo" src="@/assets/logo.png" id="vue-logo" />
     <div class="title">What do I do today?</div>
     <input v-model="myTodo"/>
-    <button @click="addTodo">Add</button>
+    <button @click="addToDo">Add</button>
     <div v-if="errors !==''" id='errors'>{{errors}}</div>
   </div>
 </template>
 
 <script>
-// import {db} from '@/main'
-
+import {db} from '@/main'
 export default {
   name: 'App',
   data: function(){
@@ -20,10 +19,20 @@ export default {
     }
   },
   methods: {
-    addTodo: function(){
-      this.errors='';
-      if(this.myTodo!==''){
-        console.log('j');
+    addToDo: function(){
+      this.errors ='';
+      if(this.myTodo !==''){
+        db.collection('items').add({
+          title: this.myTodo,
+          createdAt: Date.now()
+        }).then((response)=>{
+          console.log(this.myTodo);
+          if (response){
+            this.myTodo=''
+          }
+        }).catch((error)=>{
+          this.errors=error
+        })
       }else{
         this.errors='Enter a todo';
       }
